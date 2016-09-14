@@ -1,6 +1,6 @@
 from keras.models import Sequential
 from keras.layers import Dense
-from keras.layers.core import TimeDistributed
+from keras.layers.wrappers import TimeDistributed
 from keras.layers.recurrent import LSTM, GRU
 
 def create_lstm_network(num_frequency_dimensions, num_hidden_dimensions, num_recurrent_units=1):
