@@ -53,12 +53,13 @@ def convert_flac_to_wav(filename, sample_frequency):
 
 
 def convert_folder_to_wav(directory, sample_rate=44100):
-	for file in os.listdir(directory):
-		fullfilename = directory+file
-		if file.endswith('.mp3'):
-			convert_mp3_to_wav(filename=fullfilename, sample_frequency=sample_rate)
-		if file.endswith('.flac'):
-			convert_flac_to_wav(filename=fullfilename, sample_frequency=sample_rate)
+	for r, d, f in os.walk(directory):
+		for n in f:
+			fullfilename = os.path.join(r, n)
+			if n.endswith('.mp3'):
+				convert_mp3_to_wav(filename=fullfilename, sample_frequency=sample_rate)
+			if n.endswith('.flac'):
+				convert_flac_to_wav(filename=fullfilename, sample_frequency=sample_rate)
 	return directory + 'wave/'
 
 def read_wav_as_np(filename):
@@ -96,7 +97,7 @@ def time_blocks_to_fft_blocks(blocks_time_domain):
 		fft_block = np.fft.fft(block)
 		new_block = np.concatenate((np.real(fft_block), np.imag(fft_block)))
 		fft_blocks.append(new_block)
-	return fft_blocks	
+	return fft_blocks
 
 def fft_blocks_to_time_blocks(blocks_ft_domain):
 	time_blocks = []
@@ -111,9 +112,10 @@ def fft_blocks_to_time_blocks(blocks_ft_domain):
 
 def convert_wav_files_to_nptensor(directory, block_size, max_seq_len, out_file, max_files=20, useTimeDomain=False):
 	files = []
-	for file in os.listdir(directory):
-		if file.endswith('.wav'):
-			files.append(directory+file)
+	for r, d, f in os.listdir(directory):
+		for n in f:
+			if n.endswith('.wav'):
+				files.append(os.path.join(r, n))
 	chunks_X = []
 	chunks_Y = []
 	num_files = len(files)
