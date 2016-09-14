@@ -57,9 +57,10 @@ def convert_folder_to_wav(directory, sample_rate=44100):
 		for n in f:
 			fullfilename = os.path.join(r, n)
 			if n.endswith('.mp3'):
-				convert_mp3_to_wav(filename=fullfilename, sample_frequency=sample_rate)
+				name = convert_mp3_to_wav(filename=fullfilename, sample_frequency=sample_rate)
 			if n.endswith('.flac'):
-				convert_flac_to_wav(filename=fullfilename, sample_frequency=sample_rate)
+				name = convert_flac_to_wav(filename=fullfilename, sample_frequency=sample_rate)
+			print 'Converted %s to %s' % (fullfilename, name)
 	return directory + 'wave/'
 
 def read_wav_as_np(filename):
