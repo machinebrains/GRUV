@@ -9,5 +9,5 @@ def get_neural_net_configuration():
 	#The model filename for the training data
 	nn_params['model_file'] = './datasets/YourMusicLibraryNP'
 	#The dataset directory
-	nn_params['dataset_directory'] = '~/Music/'
+	nn_params['dataset_directory'] = '../Music/'
 	return nn_params
