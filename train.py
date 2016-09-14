@@ -22,9 +22,10 @@ print ('Finished loading training data')
 #Figure out how many frequencies we have in the data
 freq_space_dims = X_train.shape[2]
 hidden_dims = config['hidden_dimension_size']
+num_hidden_layers = 1   #Number of hidden reccurent layers
 
 #Creates a lstm network
-model = network_utils.create_lstm_network(num_frequency_dimensions=freq_space_dims, num_hidden_dimensions=hidden_dims)
+model = network_utils.create_lstm_network(num_frequency_dimensions=freq_space_dims, num_hidden_dimensions=hidden_dims, num_recurrent_units=num_hidden_layers)
 #You could also substitute this with a RNN or GRU
 #model = network_utils.create_gru_network()
 
@@ -36,14 +37,15 @@ num_iters = 50 			#Number of iterations for training
 epochs_per_iter = 25	#Number of iterations before we save our model
 batch_size = 5			#Number of training examples pushed to the GPU per batch.
 						#Larger batch sizes require more memory, but training will be faster
+
 print ('Starting training!')
 while cur_iter < num_iters:
 	print('Iteration: ' + str(cur_iter))
 	#We set cross-validation to 0,
-	#as cross-validation will be on different datasets 
+	#as cross-validation will be on different datasets
 	#if we reload our model between runs
-	#The moral way to handle this is to manually split 
-	#your data into two sets and run cross-validation after 
+	#The moral way to handle this is to manually split
+	#your data into two sets and run cross-validation after
 	#you've trained the model for some number of epochs
 	history = model.fit(X_train, y_train, batch_size=batch_size, nb_epoch=epochs_per_iter, verbose=1, validation_split=0.0)
 	cur_iter += epochs_per_iter
