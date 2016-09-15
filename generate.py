@@ -11,6 +11,7 @@ import config.nn_config as nn_config
 config = nn_config.get_neural_net_configuration()
 sample_frequency = config['sampling_frequency']
 inputFile = config['model_file']
+seedFile = config['seed_file']
 model_basename = config['model_basename']
 cur_iter = 1000
 model_filename = model_basename + str(cur_iter)
@@ -26,6 +27,11 @@ X_train = np.load(inputFile + '_x.npy')
 y_train = np.load(inputFile + '_y.npy')
 X_mean = np.load(inputFile + '_mean.npy')
 X_var = np.load(inputFile + '_var.npy')
+
+X_seed = np.load(seedFile + '_x.npy')
+y_seed = np.load(seedFile + '_y.npy')
+X_seed_mean = np.load(seedFile + '_mean.npy')
+X_seed_var = np.load(seedFile + '_var.npy')
 print ('Finished loading training data')
 
 #Figure out how many frequencies we have in the data
@@ -51,12 +57,12 @@ print ('Starting generation!')
 #In a sense, choosing good seed sequences = how you get interesting compositions
 #There are many, many ways we can pick these seed sequences such as taking linear combinations of certain songs
 #We could even provide a uniformly random sequence, but that is highly unlikely to produce good results
-seed_len = 1
-seed_seq = seed_generator.generate_copy_seed_sequence(seed_length=seed_len, training_data=X_train)
+seed_len = 10
+seed_seq = seed_generator.generate_copy_seed_sequence(seed_length=seed_len, training_data=X_seed)
 
 max_seq_len = 10; #Defines how long the final song is. Total song length in samples = max_seq_len * example_len
 output = sequence_generator.generate_from_seed(model=model, seed=seed_seq,
-	sequence_length=max_seq_len, data_variance=X_var, data_mean=X_mean)
+	sequence_length=max_seq_len, data_variance=X_seed_var, data_mean=X_seed_mean)
 print ('Finished generation!')
 
 #Save the generated sequence to a WAV file
