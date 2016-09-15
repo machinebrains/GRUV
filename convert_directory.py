@@ -8,7 +8,7 @@ parser.add_argument('--mode', default='train')
 args = parser.parse_args()
 config = nn_config.get_neural_net_configuration()
 input_directory = config['dataset_directory' if args.mode == 'train' else 'seed_directory']
-output_filename = config['model_file']
+output_filename = config['model_file' if args.mode == 'train' else 'seed_file']
 
 freq = config['sampling_frequency'] #sample frequency in Hz
 clip_len = 10 		#length of clips for training. Defined in seconds
