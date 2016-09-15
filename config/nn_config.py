@@ -10,4 +10,5 @@ def get_neural_net_configuration():
 	nn_params['model_file'] = './datasets/YourMusicLibraryNP'
 	#The dataset directory
 	nn_params['dataset_directory'] = '../Music/'
+	nn_params['seed_directory'] = './datasets/seed/'
 	return nn_params

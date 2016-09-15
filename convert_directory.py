@@ -1,8 +1,13 @@
 from data_utils.parse_files import *
 import config.nn_config as nn_config
+import argparse
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--mode', default='train')
+
+args = parser.parse_args()
 config = nn_config.get_neural_net_configuration()
-input_directory = config['dataset_directory']
+input_directory = config['dataset_directory' if args.mode == 'train' else 'seed_directory']
 output_filename = config['model_file']
 
 freq = config['sampling_frequency'] #sample frequency in Hz
