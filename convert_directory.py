@@ -1,9 +1,14 @@
 from data_utils.parse_files import *
 import config.nn_config as nn_config
+import argparse
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--mode', default='train')
+
+args = parser.parse_args()
 config = nn_config.get_neural_net_configuration()
-input_directory = config['dataset_directory']
-output_filename = config['model_file'] 
+input_directory = config['dataset_directory' if args.mode == 'train' else 'seed_directory']
+output_filename = config['model_file' if args.mode == 'train' else 'seed_file']
 
 freq = config['sampling_frequency'] #sample frequency in Hz
 clip_len = 10 		#length of clips for training. Defined in seconds
@@ -12,4 +17,4 @@ max_seq_len = int(round((freq * clip_len) / block_size)) #Used later for zero-pa
 #Step 1 - convert MP3s to WAVs
 new_directory = convert_folder_to_wav(input_directory, freq)
 #Step 2 - convert WAVs to frequency domain with mean 0 and standard deviation of 1
-convert_wav_files_to_nptensor(new_directory, block_size, max_seq_len, output_filename)
+convert_wav_files_to_nptensor(input_directory, block_size, max_seq_len, output_filename)

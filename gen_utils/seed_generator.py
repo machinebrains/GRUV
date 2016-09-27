@@ -1,4 +1,5 @@
 import numpy as np
+import data_utils.parse_files as pf
 
 #A very simple seed generator
 #Copies a random example's first seed_length sequences as input to the generation algorithm
